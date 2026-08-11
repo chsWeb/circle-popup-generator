@@ -4,10 +4,6 @@
 the fields, watch it render live, copy the code, paste it into Circle. No
 developer, no CSS, no support ticket.
 
-🔗 **[Live site](#)** · $59 one-time · Not affiliated with Circle
-
-![The generator](public/images/tn-popup-geenrator@2x.png)
-
 Circle communities can run custom code, but writing a popup that behaves
 properly — dismissal state that persists, mobile layout, not firing on every
 page load — is a real front-end job. Most community managers don't have one
