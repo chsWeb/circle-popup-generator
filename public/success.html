@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Thank you — Circle Popup Generator</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2222%22 fill=%22%230637f1%22/><rect x=%2224%22 y=%2232%22 width=%2252%22 height=%2236%22 rx=%228%22 fill=%22white%22/></svg>">
+  <link rel="stylesheet" href="/assets/site.css">
+  <style>
+    .success-shell {
+      display: flex;
+      min-height: calc(100vh - 64px);
+      align-items: center;
+      justify-content: center;
+      padding: 40px 22px 72px;
+    }
+
+    .success-card {
+      width: min(100%, 520px);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 36px;
+      background: #fff;
+      box-shadow: var(--shadow-md);
+      text-align: center;
+    }
+
+    .success-mark {
+      display: inline-flex;
+      width: 56px;
+      height: 56px;
+      margin-bottom: 18px;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      background: var(--green-soft);
+      color: var(--green);
+    }
+
+    .success-card h1 {
+      margin-bottom: 10px;
+      font-size: 28px;
+    }
+
+    .success-steps {
+      margin: 24px 0 0;
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--soft);
+      text-align: left;
+    }
+
+    .success-steps h2 {
+      margin-bottom: 10px;
+      font-size: 16px;
+    }
+
+    .success-steps ol {
+      margin: 0;
+      padding-left: 20px;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .success-steps li + li {
+      margin-top: 7px;
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 15px;
+      height: 15px;
+      border: 2px solid rgba(31, 111, 235, 0.25);
+      border-top-color: var(--blue);
+      border-radius: 999px;
+      animation: spin 0.7s linear infinite;
+      vertical-align: -2px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .spinner { animation-duration: 2.4s; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="/">
+      <span class="brand-mark" aria-hidden="true">◱</span>
+      Circle Popup Generator
+    </a>
+  </div>
+</header>
+
+<main class="success-shell">
+  <div class="success-card">
+    <span class="success-mark" aria-hidden="true">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+    </span>
+
+    <h1>Payment received</h1>
+    <p id="success-message"><span class="spinner" aria-hidden="true"></span> Unlocking your account…</p>
+
+    <div id="success-actions" hidden>
+      <a class="btn btn--primary btn--block" href="/app?purchased=1">Open the generator</a>
+    </div>
+
+    <div class="success-steps">
+      <h2>What happens next</h2>
+      <ol>
+        <li>Fill in the generator form and check the live preview.</li>
+        <li>Press <strong>Copy generated code</strong> to get your block.</li>
+        <li>In Circle, open your community settings and find the custom code area for the page body.</li>
+        <li>Paste the block in, save, and load a targeted page to see the popup.</li>
+      </ol>
+    </div>
+
+    <p style="margin:20px 0 0;font-size:14px">
+      Something not right? Email <a href="mailto:jono@wepiphany.com">jono@wepiphany.com</a> —
+      not Circle's support team, who can't troubleshoot this code.
+    </p>
+  </div>
+</main>
+
+<script type="module">
+  import { getAccessState } from '/assets/auth.js';
+
+  const message = document.getElementById('success-message');
+  const actions = document.getElementById('success-actions');
+
+  /**
+   * Stripe redirects here the instant payment succeeds, which can beat the
+   * webhook that records the purchase. Poll briefly rather than dumping the
+   * customer onto a still-locked generator.
+   */
+  const DEADLINE = Date.now() + 20000;
+
+  async function poll() {
+    let state = { purchased: false };
+
+    try {
+      state = await getAccessState();
+    } catch {
+      /* transient — the retry below covers it */
+    }
+
+    if (state.purchased) {
+      message.textContent = 'Your account is unlocked. Generate as many popups as you like.';
+      actions.hidden = false;
+      return;
+    }
+
+    if (Date.now() > DEADLINE) {
+      message.innerHTML =
+        'Your payment went through. Unlocking is taking longer than usual — open the generator and refresh in a moment, or email <a href="mailto:jono@wepiphany.com">jono@wepiphany.com</a> and I\'ll sort it out.';
+      actions.hidden = false;
+      return;
+    }
+
+    setTimeout(poll, 1500);
+  }
+
+  poll();
+</script>
+
+</body>
+</html>

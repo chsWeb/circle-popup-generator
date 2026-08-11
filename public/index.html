@@ -1,0 +1,483 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Circle Popup Generator — targeted popups for your Circle community</title>
+  <meta name="description" content="Generate a paste-ready popup for your Circle community in about two minutes. Page targeting, remind-me-later, and Mixpanel tracking built in. No developer required.">
+  <meta property="og:title" content="Circle Popup Generator">
+  <meta property="og:description" content="Fill in a form, copy one block of code, paste it into Circle. Targeted popups with built-in Mixpanel tracking.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2222%22 fill=%22%230637f1%22/><rect x=%2224%22 y=%2232%22 width=%2252%22 height=%2236%22 rx=%228%22 fill=%22white%22/></svg>">
+  <link rel="stylesheet" href="/assets/site.css">
+  <link rel="stylesheet" href="/assets/landing.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="/">
+      <span class="brand-mark" aria-hidden="true">◱</span>
+      Circle Popup Generator
+    </a>
+    <nav class="site-nav">
+      <a href="#features">Features</a>
+      <a href="#walkthrough">Walkthrough</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+      <a class="btn btn--secondary btn--sm" href="/app" data-auth-link>Sign in</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- ===================== hero ===================== -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="eyebrow">Built for Circle communities</span>
+        <h1>Ship a targeted popup to your Circle community in <span>two minutes</span>.</h1>
+        <p class="lede">
+          Fill in a form, watch the live preview, copy one block of code, paste it into Circle.
+          Page targeting, remind-me-later, and Mixpanel tracking are already wired in — no
+          developer, no ongoing subscription.
+        </p>
+        <ul class="hero-checklist">
+          <li>No Circle plugin or app install</li>
+          <li>Works with Circle's custom code areas</li>
+          <li>Mixpanel events out of the box</li>
+          <li>One payment, unlimited popups</li>
+        </ul>
+
+        <div class="hero-actions">
+          <a class="btn btn--primary" href="/app">Try the generator free</a>
+          <a class="btn btn--secondary" href="#features">See what it does</a>
+        </div>
+        <p class="hero-reassurance">
+          Build and preview for free. Pay once, only when you want to copy the code.
+        </p>
+      </div>
+
+      <!-- Miniature of the real popup, sitting on a stand-in Circle feed. -->
+      <div class="hero-stage" aria-hidden="true">
+        <div class="stage-chrome">
+          <span class="stage-dot"></span>
+          <span class="stage-dot"></span>
+          <span class="stage-dot"></span>
+          <span class="stage-url">your-community.circle.so/feed</span>
+        </div>
+        <div class="stage-body">
+          <div class="skeleton-post">
+            <div class="skeleton-avatar"><i></i><span class="skeleton-line w-45" style="width:120px"></span></div>
+            <div class="skeleton-line w-90"></div>
+            <div class="skeleton-line w-70"></div>
+          </div>
+          <div class="skeleton-post">
+            <div class="skeleton-avatar"><i></i><span class="skeleton-line" style="width:96px"></span></div>
+            <div class="skeleton-line w-70"></div>
+          </div>
+
+          <div class="stage-overlay">
+            <div class="mini-popup">
+              <button class="mini-popup-close" type="button" tabindex="-1">&times;</button>
+              <!-- Not a heading: decorative text inside the hero mockup. As an
+                   h3 it broke the document outline (h1 straight to h3). -->
+              <p class="mini-popup__title">We're planning next quarter</p>
+              <p>Tell us what you want to see and we'll build the calendar around it. Two minutes, ten questions.</p>
+              <div class="mini-popup-actions">
+                <span class="mini-btn mini-btn--primary">Take the survey</span>
+                <span class="mini-btn mini-btn--secondary">Remind me later</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== problem ===================== -->
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Circle has no popups. So most announcements get scrolled past.</h2>
+        <p>
+          A pinned post is easy to ignore and an email gets buried. A popup is the one placement
+          members actually have to answer — but building one means writing JavaScript, handling
+          dismissal state so you don't nag people, and wiring up analytics. This does all of that
+          for you.
+        </p>
+      </div>
+    </div>
+  </section>
+  <!-- ===================== feature tour =====================
+       PLACEHOLDERS. Each .placeholder div is a slot for a real screenshot.
+       Replace it with an <img> and delete the placeholder markup; the caption
+       under each one says what to capture.
+       ========================================================= -->
+  <section class="section section--panel" id="features">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Everything the popup needs, already handled</h2>
+        <p>These are the parts that take a developer an afternoon and a few rounds of bug reports.</p>
+      </div>
+
+      <div class="tour">
+        <article class="tour-item">
+          <div class="placeholder">
+            <svg class="placeholder__icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="m3 16 5-4 4 3 3-2 6 5"/></svg>
+            <span class="placeholder__label">Targeting controls</span>
+            <span class="placeholder__meta">the "where should this appear" field · 16:10</span>
+          </div>
+          <div class="tour-item__body">
+            <h3>Precise page targeting</h3>
+            <p>
+              Show it everywhere, or only on the pages you list. It checks your domain first, so the
+              code can never fire somewhere it shouldn't — and settings and messages are always
+              off-limits.
+            </p>
+          </div>
+        </article>
+
+        <article class="tour-item">
+          <div class="placeholder">
+            <svg class="placeholder__icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8M12 18v3"/></svg>
+            <span class="placeholder__label">Form beside live preview</span>
+            <span class="placeholder__meta">mid-edit, so it reads as live · 16:10</span>
+          </div>
+          <div class="tour-item__body">
+            <h3>Live preview as you type</h3>
+            <p>
+              The exact popup your members will see, updating with every keystroke. Check the
+              headline wrap and the mobile button layout before you ship it, not after.
+            </p>
+          </div>
+        </article>
+
+        <article class="tour-item">
+          <div class="placeholder">
+            <svg class="placeholder__icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M12 8v5l3 2"/><circle cx="12" cy="12" r="9"/></svg>
+            <span class="placeholder__label">Popup with both buttons</span>
+            <span class="placeholder__meta">CTA + remind me later · 16:10</span>
+          </div>
+          <div class="tour-item__body">
+            <h3>Remind me later, done properly</h3>
+            <p>
+              Members can defer instead of dismissing. The popup hides for however many days you
+              choose, then comes back once — so you get a second shot without pestering anyone.
+            </p>
+          </div>
+        </article>
+
+        <article class="tour-item">
+          <div class="placeholder">
+            <svg class="placeholder__icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2"/></svg>
+            <span class="placeholder__label">Mixpanel events</span>
+            <span class="placeholder__meta">real campaign numbers · 16:10</span>
+          </div>
+          <div class="tour-item__body">
+            <h3>Mixpanel tracking built in</h3>
+            <p>
+              Views, clicks, remind-laters and dismissals all fire as named events with campaign
+              properties. If Mixpanel isn't loaded, the button still works — tracking never blocks a
+              click.
+            </p>
+          </div>
+        </article>
+
+        <article class="tour-item">
+          <div class="placeholder">
+            <svg class="placeholder__icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+            <span class="placeholder__label">Image placement options</span>
+            <span class="placeholder__meta">side-by-side layout · 16:10</span>
+          </div>
+          <div class="tour-item__body">
+            <h3>Images, formatting, and layout</h3>
+            <p>
+              Put an image above the title, below it, or beside the text. Upload it here rather than
+              hunting for a URL — Circle gives you no easy way to get one. Bold and italic with
+              asterisks, and mobile layout handled.
+            </p>
+          </div>
+        </article>
+
+        <article class="tour-item">
+          <div class="placeholder">
+            <svg class="placeholder__icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M16 18h5v-5M21 18l-6-6-4 4-6-6"/><path d="M3 3v18h18"/></svg>
+            <span class="placeholder__label">Generated code block</span>
+            <span class="placeholder__meta">the copy step · 16:10</span>
+          </div>
+          <div class="tour-item__body">
+            <h3>One block, paste and done</h3>
+            <p>
+              Copy a single self-contained block with your settings already written in, paste it into
+              Circle, save. It survives Circle's page-to-page navigation, which is where naive popup
+              scripts quietly fail.
+            </p>
+          </div>
+        </article>
+      </div>
+
+      <div class="note tour-note">
+        <p>
+          <strong>Changing a campaign later?</strong> Update the storage key and every member sees the
+          new popup fresh, even if they dismissed the last one. Generate a new block, paste it over
+          the old one — that's the whole update process.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== video walkthrough =====================
+       PLACEHOLDER. Replace the .placeholder div with the embed or <video>.
+       ============================================================= -->
+  <section class="section" id="walkthrough">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Watch it built start to finish</h2>
+        <p>A full walkthrough, from empty form to a live popup in Circle.</p>
+      </div>
+
+      <div class="video-frame">
+        <div class="placeholder">
+          <svg class="placeholder__icon" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M10 8.5v7l6-3.5z"/></svg>
+          <span class="placeholder__label">Video walkthrough</span>
+          <span class="placeholder__meta">16:9 embed</span>
+        </div>
+        <p class="video-caption">
+          The tutorial is being recorded. Everything you need is already in the reference tables
+          inside the generator, so you don't have to wait for it.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== tracking ===================== -->
+  <section class="section section--panel">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>You'll know exactly how it performed</h2>
+        <p>
+          Every popup sends four Mixpanel events, each tagged with your campaign name, the page
+          path, and the full URL — so you can measure a campaign without touching the code.
+        </p>
+      </div>
+
+      <table class="event-table">
+        <thead>
+          <tr>
+            <th scope="col">Event</th>
+            <th scope="col">Fires when</th>
+            <th scope="col">Tells you</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>Community Popup Viewed</code></td>
+            <td>The popup is displayed</td>
+            <td>How many members actually reached it</td>
+          </tr>
+          <tr>
+            <td><code>Community Popup CTA Clicked</code></td>
+            <td>Someone clicks the main button</td>
+            <td>Your real conversion rate, plus the CTA text and destination</td>
+          </tr>
+          <tr>
+            <td><code>Community Popup Remind Later Clicked</code></td>
+            <td>They defer, or click outside the popup</td>
+            <td>Interested but not now — and how they deferred</td>
+          </tr>
+          <tr>
+            <td><code>Community Popup Declined</code></td>
+            <td>They close it with the X</td>
+            <td>A hard no, so you can judge whether the message landed</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ===================== pricing ===================== -->
+  <section class="section" id="pricing">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>One payment. Not another subscription.</h2>
+        <p>Build and preview as much as you like for free. Pay once when you're ready to ship.</p>
+      </div>
+
+      <div class="pricing-card">
+        <div class="pricing-head">
+          <h3 style="margin:0;font-size:16px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)">Full access</h3>
+          <div class="price">
+            <span class="price-amount">$59</span>
+            <span class="price-period">once</span>
+          </div>
+          <p>Unlimited popups, forever, for your account.</p>
+        </div>
+        <div class="pricing-body">
+          <ul class="check-list">
+            <li>Unlimited popups and unlimited campaigns</li>
+            <li>Every feature unlocked — targeting, images, Mixpanel tracking</li>
+            <li>Use it across all the Circle communities you run</li>
+            <li>Live preview and the full configuration reference</li>
+            <li>Future improvements to the generator included</li>
+            <li>No subscription, no per-popup fee, no expiry</li>
+          </ul>
+          <a class="btn btn--primary btn--block" href="/app">Start building free</a>
+          <p class="pricing-note">You only pay when you want to copy your first block of code.</p>
+        </div>
+      </div>
+
+      <div class="independence">
+        <p>
+          <strong>An independent tool.</strong> This isn't made by Circle and isn't affiliated with
+          them. It works through Circle's custom code area, but the popup itself is mine, not
+          theirs — so <strong>Circle's support team can't troubleshoot it</strong>. Bring any
+          problem to <a href="mailto:jono@wepiphany.com">jono@wepiphany.com</a> instead.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== faq ===================== -->
+  <section class="section section--panel" id="faq">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Questions</h2>
+      </div>
+
+      <div class="faq-list">
+        <details class="faq-item">
+          <summary>Do I need to know how to code?</summary>
+          <div class="faq-body">
+            <p>
+              No. You fill in a form and copy the result into Circle's custom code area. If you can
+              paste text into a settings box, you can do this. The generated block is self-contained
+              — there's nothing to edit by hand afterwards.
+            </p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>Where exactly does the code go in Circle?</summary>
+          <div class="faq-body">
+            <p>
+              Into your community's custom code settings, in the section that injects code into the
+              page body. You'll get the exact steps after purchase. Saving it makes the popup live
+              immediately on the pages you targeted.
+            </p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>Will members see the popup over and over?</summary>
+          <div class="faq-body">
+            <p>
+              No. The popup remembers each member's response in their browser. If they click the
+              button or close it, they don't see it again. If they choose "remind me later," it
+              stays hidden for the number of days you set, then returns once.
+            </p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>Do I have to use Mixpanel?</summary>
+          <div class="faq-body">
+            <p>
+              No. If Mixpanel is installed on your community, the events flow automatically. If it
+              isn't, the popup works exactly the same and the tracking calls are simply skipped —
+              they never delay or block your call-to-action.
+            </p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>Can I run popups on more than one community?</summary>
+          <div class="faq-body">
+            <p>
+              Yes. Your purchase unlocks the generator for your account, and you can generate as many
+              blocks as you want for as many communities as you run. Each block targets one domain,
+              so just generate one per community.
+            </p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>Will it show up somewhere awkward, like a member's inbox?</summary>
+          <div class="faq-body">
+            <p>
+              No. Settings and messages pages are permanently excluded, even if you choose to show
+              the popup across your whole community. It also verifies the domain before doing
+              anything, so the code can't fire outside your community.
+            </p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>Is this made or supported by Circle?</summary>
+          <div class="faq-body">
+            <p>
+              No. This is an independent tool, not built by Circle and not affiliated with them.
+              It works through Circle's custom code area, which is a feature Circle provides — but
+              <strong>Circle's support team can't help you with the popup itself</strong>. If
+              something isn't working, don't open a ticket with Circle; they have no visibility into
+              this code and won't be able to troubleshoot it.
+            </p>
+            <p>
+              Come to me instead: <a href="mailto:jono@wepiphany.com">jono@wepiphany.com</a>.
+            </p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>How do I get help if something isn't working?</summary>
+          <div class="faq-body">
+            <p>
+              Email <a href="mailto:jono@wepiphany.com">jono@wepiphany.com</a> with your community
+              domain and the settings you used, and I'll take a look.
+            </p>
+            <p>
+              You can also build and preview a complete popup before paying anything, so you can see
+              exactly what you're getting first.
+            </p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== closing cta ===================== -->
+  <section class="section">
+    <div class="wrap">
+      <div class="cta-band">
+        <h2>Build your first popup now</h2>
+        <p>The generator is free to use. You'll see exactly what your members will see before you decide to buy.</p>
+        <a class="btn btn--primary" href="/app">Open the generator</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>
+      © <span id="year">2026</span> Circle Popup Generator<br>
+      <span style="font-size:13px">Not affiliated with or supported by Circle.</span>
+    </p>
+    <nav class="footer-links">
+      <a href="#features">Features</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+      <a href="/app">Generator</a>
+      <a href="mailto:jono@wepiphany.com">Support</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>

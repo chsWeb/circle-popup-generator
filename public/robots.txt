@@ -1,0 +1,7 @@
+# The generator and auth pages are per-account tools, not content.
+User-agent: *
+Disallow: /app
+Disallow: /login
+Disallow: /success
+Disallow: /api/
+Allow: /

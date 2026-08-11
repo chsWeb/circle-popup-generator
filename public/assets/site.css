@@ -1,0 +1,346 @@
+/* ---------------------------------------------------------------------------
+   Shared shell: palette, typography, buttons, header, footer.
+   Palette carried over from the original generator so the marketing site and
+   the tool read as one product.
+   --------------------------------------------------------------------------- */
+
+:root {
+  --ink: #142033;
+  --muted: #536174;
+  --line: #c8d5e6;
+  --panel: #ffffff;
+  --soft: #f4f7fb;
+  --code: #101827;
+  --blue: #1f6feb;
+  --blue-soft: #eef4ff;
+  --brand: #0637f1;
+  --green: #1c7c54;
+  --green-soft: #effaf4;
+  --amber-soft: #fff8e6;
+  --amber-line: #f0d089;
+  --radius: 10px;
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.06);
+  --shadow-md: 0 12px 32px rgba(15, 23, 42, 0.1);
+  --shadow-lg: 0 24px 80px rgba(15, 23, 42, 0.22);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--soft);
+  color: var(--ink);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrap {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 22px;
+}
+
+.wrap--wide {
+  max-width: 1280px;
+}
+
+h1,
+h2,
+h3 {
+  letter-spacing: -0.015em;
+}
+
+h1 {
+  margin: 0 0 16px;
+  font-size: clamp(36px, 5.4vw, 60px);
+  line-height: 1.04;
+}
+
+h2 {
+  margin: 0 0 14px;
+  font-size: clamp(26px, 3.2vw, 36px);
+  line-height: 1.15;
+}
+
+h3 {
+  margin: 0 0 8px;
+  font-size: 18px;
+  line-height: 1.3;
+}
+
+p {
+  margin: 0 0 14px;
+  color: var(--muted);
+}
+
+a {
+  color: var(--blue);
+}
+
+code,
+pre {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace;
+}
+
+:not(pre) > code {
+  border-radius: 5px;
+  padding: 1px 5px;
+  background: var(--blue-soft);
+  color: #172033;
+  font-size: 0.9em;
+}
+
+/* --- header ---------------------------------------------------------------- */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  border-bottom: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(10px);
+}
+
+.site-header .wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  min-height: 64px;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--ink);
+  font-weight: 800;
+  font-size: 16px;
+  text-decoration: none;
+}
+
+.brand-mark {
+  display: inline-flex;
+  width: 28px;
+  height: 28px;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: var(--brand);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.site-nav a {
+  border-radius: 8px;
+  padding: 8px 10px;
+  color: var(--muted);
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.site-nav a:hover {
+  background: var(--blue-soft);
+  color: var(--ink);
+}
+
+/* --- buttons --------------------------------------------------------------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  padding: 11px 20px;
+  cursor: pointer;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform 0.08s ease, background 0.15s ease, box-shadow 0.15s ease;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.btn--primary {
+  background: var(--brand);
+  color: #fff;
+  box-shadow: var(--shadow-sm);
+}
+
+.btn--primary:hover:not(:disabled) {
+  background: #052ec9;
+}
+
+.btn--secondary {
+  border-color: var(--line);
+  background: #fff;
+  color: var(--ink);
+}
+
+.btn--secondary:hover:not(:disabled) {
+  border-color: #a9bdd6;
+  background: #fbfdff;
+}
+
+.btn--ghost {
+  background: transparent;
+  color: var(--blue);
+}
+
+.btn--sm {
+  min-height: 38px;
+  padding: 8px 14px;
+  font-size: 14px;
+}
+
+.btn--block {
+  width: 100%;
+}
+
+.btn:focus-visible,
+a:focus-visible {
+  outline: 3px solid rgba(31, 111, 235, 0.32);
+  outline-offset: 2px;
+}
+
+/* --- generic blocks -------------------------------------------------------- */
+
+.eyebrow {
+  display: inline-block;
+  margin-bottom: 14px;
+  border: 1px solid #cfe0fb;
+  border-radius: 999px;
+  padding: 5px 13px;
+  background: var(--blue-soft);
+  color: #1a4fb8;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.lede {
+  max-width: 620px;
+  color: var(--muted);
+  font-size: 19px;
+}
+
+.card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 22px;
+  background: var(--panel);
+}
+
+.note {
+  border-left: 4px solid var(--green);
+  border-radius: 0 8px 8px 0;
+  padding: 13px 16px;
+  background: var(--green-soft);
+  color: #234736;
+  font-size: 15px;
+}
+
+.note p:last-child {
+  margin-bottom: 0;
+}
+
+.alert {
+  display: none;
+  margin: 0 0 16px;
+  border: 1px solid #f2b8b5;
+  border-radius: 8px;
+  padding: 12px 14px;
+  background: #fff5f5;
+  color: #8a1f17;
+  font-size: 14px;
+}
+
+.alert.is-visible {
+  display: block;
+}
+
+.alert--success {
+  border-color: #a8d5bd;
+  background: var(--green-soft);
+  color: #1c5c40;
+}
+
+/* --- footer ---------------------------------------------------------------- */
+
+.site-footer {
+  margin-top: 72px;
+  border-top: 1px solid var(--line);
+  padding: 32px 0;
+  background: #fff;
+}
+
+.site-footer .wrap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.site-footer p {
+  margin: 0;
+  font-size: 14px;
+}
+
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  font-size: 14px;
+}
+
+.footer-links a {
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.footer-links a:hover {
+  color: var(--blue);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+@media (max-width: 720px) {
+  .site-nav a:not(.btn) {
+    display: none;
+  }
+}

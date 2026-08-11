@@ -1,0 +1,24 @@
+{
+  "name": "circle-popup-generator",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Landing page and gated web app for the Circle popup code generator.",
+  "scripts": {
+    "check": "node scripts/check-setup.mjs",
+    "dev": "node --watch scripts/dev-server.mjs",
+    "dev:vercel": "vercel dev",
+    "deploy": "vercel --prod",
+    "test:purchase": "node scripts/e2e-purchase.mjs",
+    "test:security": "node scripts/qa-security.mjs",
+    "test": "npm run check && npm run test:purchase && npm run test:security && npm run test:webhook",
+    "test:webhook": "node scripts/test-webhook-delivery.mjs"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.0",
+    "stripe": "^22.4.0"
+  },
+  "devDependencies": {
+    "vercel": "^37.0.0"
+  }
+}

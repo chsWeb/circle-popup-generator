@@ -1,0 +1,440 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Generator — Circle Popup Generator</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2222%22 fill=%22%230637f1%22/><rect x=%2224%22 y=%2232%22 width=%2252%22 height=%2236%22 rx=%228%22 fill=%22white%22/></svg>">
+  <link rel="stylesheet" href="/assets/site.css">
+  <link rel="stylesheet" href="/assets/app.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap wrap--wide">
+    <a class="brand" href="/">
+      <span class="brand-mark" aria-hidden="true">◱</span>
+      Circle Popup Generator
+    </a>
+    <nav class="site-nav">
+      <a href="/#features">Features</a>
+      <a href="/#pricing">Pricing</a>
+      <a class="btn btn--secondary btn--sm" href="/login" id="nav-auth">Sign in</a>
+    </nav>
+  </div>
+</header>
+
+<main class="app-main">
+  <div class="wrap wrap--wide">
+
+    <div class="alert" id="app-alert" role="alert"></div>
+    <div class="alert alert--success" id="app-notice" role="status"></div>
+
+    <!-- ===================== generator ===================== -->
+    <section class="section">
+      <div class="app-heading">
+        <h1>Popup code generator</h1>
+        <p>
+          Fill in the form and the preview updates as you type. When it looks right, copy the block
+          and paste it into your Circle custom code area.
+        </p>
+      </div>
+
+      <div class="generator-workspace">
+        <!-- On narrow screens this pins under the site header so the popup stays
+             visible while the form is being filled in. Without it the preview
+             stacks below a ~1900px form and every mobile edit is made blind. -->
+        <aside class="popup-preview-wrap" id="popup-preview-wrap">
+          <div class="popup-preview-head">
+            <div>
+              <h3>Popup preview</h3>
+              <p class="field-help">Updates as you edit. Visual only — the buttons do nothing here.</p>
+            </div>
+            <!-- Only rendered on narrow screens, where the pinned preview is
+                 competing with the form for vertical space. -->
+            <button class="preview-toggle" type="button" id="preview-toggle"
+                    aria-expanded="true" aria-controls="popup-preview-stage">Hide</button>
+          </div>
+
+          <!-- Stands in for the card while collapsed, so the pinned strip still
+               says which popup you're editing. -->
+          <p class="popup-preview-peek" id="popup-preview-peek"></p>
+
+          <div class="popup-preview-stage" id="popup-preview-stage" aria-label="Popup preview">
+            <!-- Mirrors the structure the generated popup uses, so the side
+                 layouts preview accurately rather than approximately.
+                 Images carry no src until one is supplied; generator.js sets
+                 and clears it, and CSS keeps them hidden until then. -->
+            <div class="popup-preview-card">
+              <button class="popup-preview-close" type="button" tabindex="-1" aria-label="Preview close button">&times;</button>
+              <div class="popup-preview-layout">
+                <img id="popup-preview-image-side" class="popup-preview-image popup-preview-image--side" alt="">
+                <div class="popup-preview-column">
+                  <img id="popup-preview-image-before" class="popup-preview-image" alt="">
+                  <h2 id="popup-preview-title">Your popup title</h2>
+                  <img id="popup-preview-image-after" class="popup-preview-image" alt="">
+                  <div id="popup-preview-subtext" class="popup-preview-subtext">Write the popup message here. Explain what people will get when they click the button.</div>
+                  <div class="popup-preview-actions">
+                    <button id="popup-preview-primary" class="popup-preview-primary" type="button" tabindex="-1">Open link</button>
+                    <button class="popup-preview-secondary" type="button" tabindex="-1">Remind me later</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </aside>
+
+        <div class="generator-config-panel">
+          <form class="generator-form" id="popup-generator-form">
+            <div class="field">
+              <label for="rootDomain">Community domain</label>
+              <div class="url-prefix-field">
+                <span class="url-prefix" aria-hidden="true">https://</span>
+                <input id="rootDomain" name="rootDomain" type="text" value="your-community.example.com" autocomplete="off">
+              </div>
+              <p class="field-help">Paste your Circle community URL here.</p>
+            </div>
+
+            <div class="field">
+              <fieldset class="radio-field">
+                <legend>Where should this popup appear?</legend>
+                <div class="radio-options">
+                  <label class="radio-option" for="targetModeAll">
+                    <input id="targetModeAll" name="targetMode" type="radio" value="all-pages" checked>
+                    <span>Show the popup everywhere</span>
+                  </label>
+                  <label class="radio-option" for="targetModeSpecific">
+                    <input id="targetModeSpecific" name="targetMode" type="radio" value="specific-paths">
+                    <span>Only on specified pages</span>
+                  </label>
+                </div>
+              </fieldset>
+            </div>
+
+            <!-- Revealed only when "Only on specified pages" is chosen. -->
+            <div class="field is-hidden" id="target-paths-field">
+              <label for="targetPaths">Show popup on these pages</label>
+              <input id="targetPaths" name="targetPaths" type="text" value="/feed" autocomplete="off">
+              <p class="field-help">Separate multiple paths with commas, for example: /feed, /c/welcome</p>
+            </div>
+
+            <div class="field" id="title-field">
+              <label for="title">Popup title</label>
+              <textarea id="title" name="title">Your popup title</textarea>
+              <p class="field-help">Line breaks are preserved in the headline.</p>
+            </div>
+
+            <div class="field">
+              <label class="check-option" for="hideTitle">
+                <input id="hideTitle" name="hideTitle" type="checkbox">
+                <span>Hide the popup title</span>
+              </label>
+            </div>
+
+            <div class="field">
+              <label for="subtext">Popup subtext</label>
+              <textarea id="subtext" name="subtext">Write the popup message here. Explain what people will get when they click the button.</textarea>
+              <ul class="field-help-list">
+                <li>Use one asterisk to make text italic.</li>
+                <li>Surround text with two asterisks to make it bold.</li>
+              </ul>
+            </div>
+
+            <div class="field">
+              <label for="ctaText">Button text</label>
+              <input id="ctaText" name="ctaText" type="text" value="Open link">
+            </div>
+
+            <div class="field">
+              <label for="ctaUrl">Button URL</label>
+              <input id="ctaUrl" name="ctaUrl" type="url" value="https://example.com">
+              <p class="field-help">Where the button sends people when they click.</p>
+            </div>
+
+            <!-- Popup image: three states, one visible at a time.
+                 empty -> choosing a source -> added. -->
+            <div class="field" id="image-field">
+              <label id="image-label">Popup image</label>
+
+              <div class="subpanel" id="image-empty">
+                <button class="btn btn--secondary btn--sm" type="button" id="add-image">
+                  <span aria-hidden="true">+</span> Add an image
+                </button>
+                <p class="field-help">Optional. Popups without an image are shorter and load faster.</p>
+              </div>
+
+              <div class="subpanel is-hidden" id="image-choose">
+                <!-- Upload is revealed only for paid accounts; the storage
+                     policy enforces the same rule, so hiding it is courtesy,
+                     not security. -->
+                <div class="image-sources is-hidden" id="image-sources">
+                  <button class="btn btn--secondary btn--sm" type="button" id="image-source-upload">
+                    Upload from your computer
+                  </button>
+                  <span class="image-sources__or">or paste a link</span>
+                </div>
+                <input id="image-file" type="file" accept="image/jpeg,image/png,image/webp,image/gif" hidden>
+
+                <!-- Images this account has uploaded before. Populated from
+                     /api/images for paid accounts only. -->
+                <div class="image-library is-hidden" id="image-library">
+                  <p class="subpanel-label">Your images</p>
+                  <div class="image-library__grid" id="image-library-grid"></div>
+                </div>
+
+                <input id="imageUrl" name="imageUrl" type="url" value="" placeholder="https://example.com/image.jpg" autocomplete="off">
+                <p class="field-help" id="image-url-help">Paste a link to an image that is already online.</p>
+                <p class="field-help is-hidden" id="image-upload-status" role="status"></p>
+
+                <div class="subpanel-actions">
+                  <button class="btn btn--secondary btn--sm" type="button" id="cancel-image">Cancel</button>
+                </div>
+              </div>
+
+              <div class="subpanel is-hidden" id="image-added">
+                <div class="image-chip">
+                  <img id="image-thumb" alt="">
+                  <span class="image-chip__url" id="image-chip-url"></span>
+                  <button class="btn btn--secondary btn--sm" type="button" id="remove-image">Remove</button>
+                </div>
+
+                <label class="subpanel-label" for="imagePlacement">Image placement</label>
+                <select id="imagePlacement" name="imagePlacement">
+                  <option value="before-title" selected>Above the title</option>
+                  <option value="after-title">Below the title</option>
+                  <option value="image-left">Left of the text</option>
+                  <option value="image-right">Right of the text</option>
+                </select>
+                <p class="field-help">Side layouts stack automatically on narrow screens.</p>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="remindDays">Remind-later days</label>
+              <input id="remindDays" name="remindDays" type="number" min="1" step="1" value="7">
+              <p class="field-help">Remind me later hides the popup for this many days.</p>
+            </div>
+
+            <div class="field">
+              <label class="check-option" for="enableCampaign">
+                <input id="enableCampaign" name="enableCampaign" type="checkbox">
+                <span>Name this campaign</span>
+              </label>
+              <p class="field-help">
+                Set your own campaign identifiers. Useful when you run several popups and want
+                to filter them in Mixpanel. A unique key is generated for you either way.
+              </p>
+            </div>
+
+            <div class="subpanel is-hidden" id="campaign-fields">
+              <div class="field">
+                <label for="storageKey">Storage key</label>
+                <input id="storageKey" name="storageKey" type="text" value="" autocomplete="off">
+                <p class="field-help">Remembers who has dismissed this popup. Change it to show a new campaign to everyone again.</p>
+              </div>
+
+              <div class="field">
+                <label for="trackingName">Tracking name</label>
+                <input id="trackingName" name="trackingName" type="text" value="" autocomplete="off">
+                <p class="field-help">Used as the Mixpanel popup_name property.</p>
+              </div>
+            </div>
+          </form>
+
+          <div class="form-actions">
+            <!-- Label is rewritten by generator.js to match what the click will
+                 actually do. A button that says "Copy" but opens checkout is
+                 the bug, not the paywall itself. -->
+            <button class="btn btn--primary" type="button" id="copy-generated-block">Copy generated code</button>
+            <button class="btn btn--secondary" type="button" id="reset-generator">Reset defaults</button>
+          </div>
+
+          <p class="action-hint" id="action-hint"></p>
+
+          <ul class="validation-list" id="generator-warnings"></ul>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===================== generated code ===================== -->
+    <section class="section code-section">
+      <h2>Your generated Circle popup block</h2>
+      <p id="code-caption">Purchase unlocks this. Everything above is free to use as long as you like.</p>
+
+      <div class="code-card is-locked" id="code-card">
+        <div class="code-toolbar">
+          <span id="code-toolbar-label">Generated block</span>
+          <button class="btn btn--primary btn--sm" type="button" id="copy-code-inline">Copy</button>
+        </div>
+        <pre><code id="generated-code"></code></pre>
+
+        <div class="code-lock" id="code-lock">
+          <span class="lock-badge" aria-hidden="true">Locked</span>
+          <h3 id="lock-title">Unlock your code for $59</h3>
+          <p id="lock-message">
+            One payment, then generate unlimited popups for every community you run. Your settings
+            above are saved while you check out.
+          </p>
+          <div class="button-row" id="lock-actions"></div>
+        </div>
+      </div>
+
+      <div class="note" style="margin-top:18px">
+        <p>
+          <strong>Support for this popup comes from me, not Circle.</strong> The block goes into
+          Circle's custom code area, but the code itself is independent — Circle's support team
+          can't see it or troubleshoot it. If something isn't working, email
+          <a href="mailto:jono@wepiphany.com">jono@wepiphany.com</a> with your community domain and
+          the settings you used.
+        </p>
+      </div>
+    </section>
+
+    <!-- ===================== reference ===================== -->
+    <section class="section">
+      <h2>What each setting does</h2>
+      <table class="reference-table">
+        <thead>
+          <tr>
+            <th scope="col">Setting</th>
+            <th scope="col">What it does</th>
+            <th scope="col">How to set it</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>rootDomain</code></td>
+            <td>Limits the popup to this Circle community domain. The script compares it to the current browser hostname before showing anything.</td>
+            <td>Use the bare domain, not a path. Example: your-community.example.com.</td>
+          </tr>
+          <tr>
+            <td><code>targetMode</code></td>
+            <td>Controls whether the popup appears on specific paths or every page in the configured community.</td>
+            <td>Use specific-paths to use the targetPaths list, or all-pages to show across the community domain.</td>
+          </tr>
+          <tr>
+            <td><code>targetPaths</code></td>
+            <td>Lists the exact Circle paths where the popup is allowed to appear.</td>
+            <td>Used only when targetMode is specific-paths. Separate multiple paths with commas.</td>
+          </tr>
+          <tr>
+            <td><code>excludedPathPrefixes</code></td>
+            <td>Hard-blocks the popup from settings, private messages, and member profile pages.</td>
+            <td>Fixed at /settings, /messages and /users. These exclusions always apply.</td>
+          </tr>
+          <tr>
+            <td><code>showTitle</code></td>
+            <td>Controls whether the popup headline is shown.</td>
+            <td>Use true to show the headline or false to hide it.</td>
+          </tr>
+          <tr>
+            <td><code>title</code></td>
+            <td>Controls the popup headline.</td>
+            <td>Line breaks are preserved. Keep it short enough to fit on mobile.</td>
+          </tr>
+          <tr>
+            <td><code>subtext</code></td>
+            <td>Controls the paragraph under the headline.</td>
+            <td>Line breaks and blank-line paragraph breaks are preserved. Use one asterisk for italic and two for bold.</td>
+          </tr>
+          <tr>
+            <td><code>imageUrl</code></td>
+            <td>Optional image shown inside the popup.</td>
+            <td>Leave it blank for no image. Use a full https image URL when adding one.</td>
+          </tr>
+          <tr>
+            <td><code>imagePlacement</code></td>
+            <td>Controls where the optional image appears.</td>
+            <td>Use before-title or after-title.</td>
+          </tr>
+          <tr>
+            <td><code>ctaText</code></td>
+            <td>Controls the primary button label.</td>
+            <td>This button marks the popup completed, sends tracking, then opens ctaUrl.</td>
+          </tr>
+          <tr>
+            <td><code>ctaUrl</code></td>
+            <td>Controls the destination for the primary button.</td>
+            <td>Use the full URL, including https://.</td>
+          </tr>
+          <tr>
+            <td><code>storageKey</code></td>
+            <td>Controls the localStorage record used to remember completion, reminder, and dismissal state.</td>
+            <td>Change this for a new campaign when you want people to see the popup again.</td>
+          </tr>
+          <tr>
+            <td><code>trackingName</code></td>
+            <td>Controls the Mixpanel popup_name property on popup events.</td>
+            <td>Use a stable, lowercase campaign name that is easy to filter in Mixpanel.</td>
+          </tr>
+          <tr>
+            <td><code>remindDays</code></td>
+            <td>Controls how long the popup stays hidden after Remind me later.</td>
+            <td>Any number of days from 1 to 365.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section">
+      <h2>Mixpanel tracking</h2>
+      <p>
+        The script waits briefly for <code>window.mixpanel.track</code> before sending events. If
+        Mixpanel never becomes available, the CTA still redirects.
+      </p>
+      <table class="reference-table">
+        <thead>
+          <tr>
+            <th scope="col">Event</th>
+            <th scope="col">Trigger</th>
+            <th scope="col">Extra properties</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>Community Popup Viewed</code></td>
+            <td>Popup is displayed</td>
+            <td>Base popup properties</td>
+          </tr>
+          <tr>
+            <td><code>Community Popup CTA Clicked</code></td>
+            <td>Primary button click</td>
+            <td><code>cta_text</code>, <code>cta_url</code></td>
+          </tr>
+          <tr>
+            <td><code>Community Popup Remind Later Clicked</code></td>
+            <td>Remind me later button or outside click</td>
+            <td><code>remind_days</code>, <code>remind_method</code></td>
+          </tr>
+          <tr>
+            <td><code>Community Popup Declined</code></td>
+            <td>X close button</td>
+            <td><code>decline_method</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap wrap--wide">
+    <p>
+      © <span id="year">2026</span> Circle Popup Generator<br>
+      <span style="font-size:13px">Not affiliated with or supported by Circle.</span>
+    </p>
+    <nav class="footer-links">
+      <a href="/">Home</a>
+      <a href="/#pricing">Pricing</a>
+      <a href="mailto:jono@wepiphany.com">Support</a>
+    </nav>
+  </div>
+</footer>
+
+<script type="module" src="/assets/generator.js"></script>
+
+</body>
+</html>

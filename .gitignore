@@ -1,0 +1,13 @@
+node_modules/
+.env
+.env.local
+.DS_Store
+dist/
+build/
+.vercel/
+*.screenflow/
+.impeccable/
+.env.local
+.claude/settings.local.json
+.env.local
+.claude/settings.local.json

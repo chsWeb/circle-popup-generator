@@ -1,0 +1,272 @@
+<main class="wrap">
+  <section class="section" id="popup-generator">
+    <h2>Popup Code Generator</h2>
+    <p>Fill out this form to generate a fresh Circle-ready popup script.</p>
+
+    <div class="generator-workspace">
+      <div class="generator-config-panel">
+        <form class="generator-form" id="popup-generator-form">
+      <div class="field">
+        <label for="rootDomain">Community domain</label>
+        <div class="url-prefix-field">
+          <span class="url-prefix" aria-hidden="true">https://</span>
+          <input id="rootDomain" name="rootDomain" type="text" value="your-community.example.com" autocomplete="off">
+        </div>
+        <p class="field-help">Paste your Circle community URL here.</p>
+      </div>
+
+      <div class="field">
+        <fieldset class="radio-field">
+          <legend>Where should this popup appear?</legend>
+          <div class="radio-options">
+            <label class="radio-option" for="targetModeSpecific">
+              <input id="targetModeSpecific" name="targetMode" type="radio" value="specific-paths" checked>
+              <span>Only on the specified pages</span>
+            </label>
+            <label class="radio-option" for="targetModeAll">
+              <input id="targetModeAll" name="targetMode" type="radio" value="all-pages">
+              <span>Show the popup everywhere</span>
+            </label>
+          </div>
+        </fieldset>
+      </div>
+
+      <div class="field" id="target-paths-field">
+        <label for="targetPaths">Show popup on these pages</label>
+        <input id="targetPaths" name="targetPaths" type="text" value="/feed" autocomplete="off">
+        <p class="field-help">Used only when this popup is limited to specific paths. Separate multiple paths with commas, for example: /feed, /c/welcome.</p>
+      </div>
+
+      <div class="field">
+        <fieldset class="radio-field">
+          <legend>Popup Title Options</legend>
+          <div class="radio-options">
+            <label class="radio-option" for="showTitleTrue">
+              <input id="showTitleTrue" name="showTitle" type="radio" value="true" checked>
+              <span>Include popup title</span>
+            </label>
+            <label class="radio-option" for="showTitleFalse">
+              <input id="showTitleFalse" name="showTitle" type="radio" value="false">
+              <span>Disable popup title</span>
+            </label>
+          </div>
+        </fieldset>
+      </div>
+
+      <div class="field">
+        <label for="title">Popup title</label>
+        <textarea id="title" name="title">Your popup title</textarea>
+        <p class="field-help">Line breaks are preserved in the headline.</p>
+      </div>
+
+      <div class="field">
+        <label for="ctaText">CTA button text</label>
+        <input id="ctaText" name="ctaText" type="text" value="Open link">
+      </div>
+
+      <div class="field field--wide">
+        <label for="subtext">Popup subtext</label>
+        <textarea id="subtext" name="subtext">Write the popup message here. Explain what people will get when they click the button.</textarea>
+        <ul class="field-help field-help-list">
+          <li>Use one asterisk to make text italic.</li>
+          <li>Surround text with two asterisks to make it bold.</li>
+        </ul>
+      </div>
+
+      <div class="field">
+        <label for="imageUrl">Image URL</label>
+        <input id="imageUrl" name="imageUrl" type="url" value="" placeholder="https://example.com/image.jpg">
+        <p class="field-help">Optional. Leave blank to hide the image.</p>
+      </div>
+
+      <div class="field">
+        <label for="imagePlacement">Image placement</label>
+        <select id="imagePlacement" name="imagePlacement">
+          <option value="before-title" selected>Before title</option>
+          <option value="after-title">After title</option>
+        </select>
+      </div>
+
+      <div class="field field--wide">
+        <label for="ctaUrl">CTA destination URL</label>
+        <input id="ctaUrl" name="ctaUrl" type="url" value="https://example.com">
+        <p class="field-help">This is where the primary button sends people when they click.</p>
+      </div>
+
+      <div class="field">
+        <label for="storageKey">Storage key</label>
+        <input id="storageKey" name="storageKey" type="text" value="circle-popup-your-campaign-v1" autocomplete="off">
+        <p class="field-help">Change this when launching a new campaign.</p>
+      </div>
+
+      <div class="field">
+        <label for="trackingName">Tracking name</label>
+        <input id="trackingName" name="trackingName" type="text" value="your-campaign-name" autocomplete="off">
+        <p class="field-help">Used as the Mixpanel popup_name property.</p>
+      </div>
+
+      <div class="field">
+        <label for="remindDays">Remind-later days</label>
+        <input id="remindDays" name="remindDays" type="number" min="1" step="1" value="7">
+        <p class="field-help">Remind me later hides the popup for this many days.</p>
+      </div>
+        </form>
+
+        <div class="form-actions">
+      <button class="copy-button" type="button" id="copy-generated-block">Copy generated full block</button>
+      <button class="secondary-button" type="button" id="reset-generator">Reset defaults</button>
+        </div>
+
+        <ul class="validation-list" id="generator-warnings"></ul>
+      </div>
+
+      <aside class="popup-preview-wrap">
+      <h3>Popup preview</h3>
+      <p class="field-help">This preview updates as you edit the form. It is visual only; the buttons do not perform actions here.</p>
+      <div class="popup-preview-stage" aria-label="Popup preview">
+        <div class="popup-preview-card">
+          <button class="popup-preview-close" type="button" aria-label="Preview close button">&times;</button>
+          <img id="popup-preview-image-before" class="popup-preview-image" src="" alt="">
+          <h2 id="popup-preview-title">Your popup title</h2>
+          <img id="popup-preview-image-after" class="popup-preview-image" src="" alt="">
+          <div id="popup-preview-subtext" class="popup-preview-subtext">Write the popup message here. Explain what people will get when they click the button.</div>
+          <div class="popup-preview-actions">
+            <button id="popup-preview-primary" class="popup-preview-primary" type="button">Open link</button>
+            <button class="popup-preview-secondary" type="button">Remind me later</button>
+          </div>
+        </div>
+      </div>
+      </aside>
+    </div>
+
+    <div class="code-card">
+      <div class="code-toolbar">
+        <span>Generated Circle popup block</span>
+        <button class="copy-button" type="button" data-copy-target="generated-code">Copy generated code</button>
+      </div>
+      <pre><code id="generated-code"></code></pre>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>How To Configure Each Line</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Line</th>
+          <th>What it does</th>
+          <th>How to edit it</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr>
+            <td><code>rootDomain</code></td>
+            <td>Limits the popup to this Circle community domain. The script compares it to the current browser hostname before showing anything.</td>
+            <td>Use the bare domain, not a path. Example: your-community.example.com.</td>
+          </tr>
+          <tr>
+            <td><code>targetMode</code></td>
+            <td>Controls whether the popup appears on specific paths or every page in the configured community.</td>
+            <td>Use specific-paths to use the targetPaths list, or all-pages to show across the community domain.</td>
+          </tr>
+          <tr>
+            <td><code>targetPaths</code></td>
+            <td>Lists the exact Circle paths where the popup is allowed to appear.</td>
+            <td>Used only when targetMode is specific-paths. The current value targets /feed.</td>
+          </tr>
+          <tr>
+            <td><code>excludedPathPrefixes</code></td>
+            <td>Hard-blocks the popup from Circle admin and message areas.</td>
+            <td>This is set to /settings and /messages. Leave these exclusions in place.</td>
+          </tr>
+          <tr>
+            <td><code>showTitle</code></td>
+            <td>Controls whether the popup headline is shown.</td>
+            <td>Use true to show the headline or false to hide it.</td>
+          </tr>
+          <tr>
+            <td><code>title</code></td>
+            <td>Controls the popup headline.</td>
+            <td>Line breaks are preserved. Keep it short enough to fit on mobile.</td>
+          </tr>
+          <tr>
+            <td><code>subtext</code></td>
+            <td>Controls the paragraph under the headline.</td>
+            <td>Line breaks and blank-line paragraph breaks are preserved. Use one asterisk for italic and two asterisks for bold.</td>
+          </tr>
+          <tr>
+            <td><code>imageUrl</code></td>
+            <td>Optional image shown inside the popup.</td>
+            <td>Leave it blank to show no image. Use a full https image URL when adding one.</td>
+          </tr>
+          <tr>
+            <td><code>imagePlacement</code></td>
+            <td>Controls where the optional image appears.</td>
+            <td>Use before-title or after-title. Those are the only supported values in this script.</td>
+          </tr>
+          <tr>
+            <td><code>ctaText</code></td>
+            <td>Controls the primary button label.</td>
+            <td>This button marks the popup completed, sends tracking, then opens ctaUrl.</td>
+          </tr>
+          <tr>
+            <td><code>ctaUrl</code></td>
+            <td>Controls the destination for the primary button.</td>
+            <td>Use the full survey or landing page URL, including https://.</td>
+          </tr>
+          <tr>
+            <td><code>storageKey</code></td>
+            <td>Controls the localStorage record used to remember completion, reminder, and dismissal state.</td>
+            <td>Change this for a new campaign when you want people to see the popup again.</td>
+          </tr>
+          <tr>
+            <td><code>trackingName</code></td>
+            <td>Controls the Mixpanel popup_name property on popup events.</td>
+            <td>Use a stable, lowercase campaign name that will be easy to filter in Mixpanel.</td>
+          </tr>
+          <tr>
+            <td><code>remindDays</code></td>
+            <td>Controls how long the popup stays hidden after Remind me later.</td>
+            <td>The current value is 7 days.</td>
+          </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="section">
+    <h2>Mixpanel Tracking</h2>
+    <p>The script waits briefly for <code>window.mixpanel.track</code> before sending popup events. If Mixpanel never becomes available, the CTA still redirects.</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Event</th>
+          <th>Trigger</th>
+          <th>Extra properties</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>Community Popup Viewed</code></td>
+          <td>Popup is displayed</td>
+          <td>Base popup properties</td>
+        </tr>
+        <tr>
+          <td><code>Community Popup CTA Clicked</code></td>
+          <td>Primary button click</td>
+          <td><code>cta_text</code>, <code>cta_url</code></td>
+        </tr>
+        <tr>
+          <td><code>Community Popup Remind Later Clicked</code></td>
+          <td>Remind me later button or outside click</td>
+          <td><code>remind_days</code>, <code>remind_method</code></td>
+        </tr>
+        <tr>
+          <td><code>Community Popup Declined</code></td>
+          <td>X close button</td>
+          <td>Base popup properties</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+</main>

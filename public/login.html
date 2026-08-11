@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sign in — Circle Popup Generator</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2222%22 fill=%22%230637f1%22/><rect x=%2224%22 y=%2232%22 width=%2252%22 height=%2236%22 rx=%228%22 fill=%22white%22/></svg>">
+  <link rel="stylesheet" href="/assets/site.css">
+  <style>
+    .auth-shell {
+      display: flex;
+      min-height: calc(100vh - 64px);
+      align-items: center;
+      justify-content: center;
+      padding: 40px 22px 72px;
+    }
+
+    .auth-card {
+      width: min(100%, 420px);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 30px;
+      background: #fff;
+      box-shadow: var(--shadow-md);
+    }
+
+    .auth-card h1 {
+      margin-bottom: 6px;
+      font-size: 26px;
+    }
+
+    .auth-card > p {
+      margin-bottom: 22px;
+      font-size: 15px;
+    }
+
+    .auth-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4px;
+      margin-bottom: 22px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 4px;
+      background: var(--soft);
+    }
+
+    .auth-tab {
+      border: 0;
+      border-radius: 7px;
+      padding: 9px;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      font: inherit;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .auth-tab[aria-selected='true'] {
+      background: #fff;
+      color: var(--ink);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .auth-field {
+      display: grid;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+
+    .auth-field label {
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .auth-field input {
+      width: 100%;
+      height: 44px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 11px 12px;
+      font: inherit;
+      font-size: 15px;
+    }
+
+    .auth-field input:focus {
+      border-color: var(--blue);
+      outline: 3px solid rgba(31, 111, 235, 0.16);
+      outline-offset: 1px;
+    }
+
+    .auth-hint {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .auth-foot {
+      margin: 20px 0 0;
+      text-align: center;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="/">
+      <span class="brand-mark" aria-hidden="true">◱</span>
+      Circle Popup Generator
+    </a>
+    <nav class="site-nav"></nav>
+  </div>
+</header>
+
+<main class="auth-shell">
+  <div class="auth-card">
+    <h1 id="auth-heading">Sign in</h1>
+    <p id="auth-subheading">Sign in to unlock your generated code.</p>
+
+    <div class="auth-tabs" role="tablist" aria-label="Sign in or create an account">
+      <button class="auth-tab" id="tab-signin" type="button" role="tab" aria-selected="true">Sign in</button>
+      <button class="auth-tab" id="tab-signup" type="button" role="tab" aria-selected="false">Create account</button>
+    </div>
+
+    <div class="alert" id="auth-error" role="alert"></div>
+    <div class="alert alert--success" id="auth-success" role="status"></div>
+
+    <form id="auth-form" novalidate>
+      <div class="auth-field">
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" autocomplete="email" required>
+      </div>
+
+      <div class="auth-field">
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" autocomplete="current-password" required minlength="8">
+        <p class="auth-hint" id="password-hint">At least 8 characters.</p>
+      </div>
+
+      <button class="btn btn--primary btn--block" id="auth-submit" type="submit">Sign in</button>
+    </form>
+
+    <!-- Returns to the generator, not the marketing page: the user's in-progress
+         popup draft lives in localStorage and is restored there. Sending them
+         home would make them hunt their way back to work they'd already done. -->
+    <p class="auth-foot"><a href="/app" id="back-link">← Back to the generator</a></p>
+  </div>
+</main>
+
+<script type="module">
+  import { getSupabase, getSession } from '/assets/auth.js';
+
+  const params = new URLSearchParams(window.location.search);
+  /**
+   * Only ever redirect to a path on this site.
+   *
+   * `?next=` is attacker-controllable, so an unchecked value turns this page
+   * into an open redirect: a link to our own login that lands the user on
+   * someone else's site the moment they authenticate. Leading `//` and `\\`
+   * are rejected too — browsers read `//evil.com` as protocol-relative.
+   */
+  function safeNext(raw) {
+    if (!raw) return '/app';
+    if (!raw.startsWith('/')) return '/app';
+    if (raw.startsWith('//') || raw.startsWith('/\\')) return '/app';
+    return raw;
+  }
+
+  const nextUrl = safeNext(params.get('next'));
+
+  const form = document.getElementById('auth-form');
+  const emailInput = document.getElementById('email');
+  const passwordInput = document.getElementById('password');
+  const submitButton = document.getElementById('auth-submit');
+  const errorBox = document.getElementById('auth-error');
+  const successBox = document.getElementById('auth-success');
+  const heading = document.getElementById('auth-heading');
+  const subheading = document.getElementById('auth-subheading');
+  const tabSignIn = document.getElementById('tab-signin');
+  const tabSignUp = document.getElementById('tab-signup');
+
+  let mode = params.get('mode') === 'signup' ? 'signup' : 'signin';
+
+  function showError(message) {
+    successBox.classList.remove('is-visible');
+    errorBox.textContent = message;
+    errorBox.classList.add('is-visible');
+  }
+
+  function showSuccess(message) {
+    errorBox.classList.remove('is-visible');
+    successBox.textContent = message;
+    successBox.classList.add('is-visible');
+  }
+
+  function clearMessages() {
+    errorBox.classList.remove('is-visible');
+    successBox.classList.remove('is-visible');
+  }
+
+  function renderMode() {
+    const signingUp = mode === 'signup';
+
+    tabSignIn.setAttribute('aria-selected', String(!signingUp));
+    tabSignUp.setAttribute('aria-selected', String(signingUp));
+    heading.textContent = signingUp ? 'Create your account' : 'Sign in';
+    subheading.textContent = signingUp
+      ? 'Free to create. You only pay when you copy your first block of code.'
+      : 'Sign in to unlock your generated code.';
+    submitButton.textContent = signingUp ? 'Create account' : 'Sign in';
+    passwordInput.autocomplete = signingUp ? 'new-password' : 'current-password';
+    clearMessages();
+  }
+
+  tabSignIn.addEventListener('click', () => { mode = 'signin'; renderMode(); });
+  tabSignUp.addEventListener('click', () => { mode = 'signup'; renderMode(); });
+
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    clearMessages();
+
+    const email = emailInput.value.trim();
+    const password = passwordInput.value;
+
+    if (!email || !password) return showError('Enter your email and password.');
+    if (password.length < 8) return showError('Your password needs at least 8 characters.');
+
+    submitButton.disabled = true;
+    submitButton.textContent = mode === 'signup' ? 'Creating account…' : 'Signing in…';
+
+    try {
+      const supabase = await getSupabase();
+
+      if (mode === 'signup') {
+        const { data, error } = await supabase.auth.signUp({
+          email,
+          password,
+          options: { emailRedirectTo: `${window.location.origin}${nextUrl}` }
+        });
+
+        if (error) throw error;
+
+        // With email confirmation on, there's no session yet — the user has to
+        // click the link first. With it off, Supabase signs them straight in.
+        //
+        // Order matters: renderMode() clears any visible message, so the
+        // success notice has to be shown *after* the tab switch, not before.
+        if (!data.session) {
+          mode = 'signin';
+          renderMode();
+          showSuccess('Account created. Check your email for the confirmation link, then sign in here.');
+          submitButton.disabled = false;
+          return;
+        }
+      } else {
+        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        if (error) throw error;
+      }
+
+      window.location.href = nextUrl;
+    } catch (error) {
+      showError(error.message || 'Something went wrong. Please try again.');
+      submitButton.disabled = false;
+      submitButton.textContent = mode === 'signup' ? 'Create account' : 'Sign in';
+    }
+  });
+
+  // Send them back wherever they came from, so a ?next= detour still returns
+  // to the right place rather than always the generator.
+  document.getElementById('back-link').href = nextUrl;
+
+  renderMode();
+
+  // Already signed in? Don't make them do it twice.
+  getSession().then((session) => {
+    if (session) window.location.replace(nextUrl);
+  });
+</script>
+
+</body>
+</html>
