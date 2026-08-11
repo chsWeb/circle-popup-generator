@@ -1,11 +1,26 @@
 # Circle Popup Generator
 
-Landing page plus a gated web app that turns a form into a paste-ready popup
-script for a Circle community. Accounts are Supabase, payment is a one-time $59
-Stripe charge, hosting is Vercel.
+**Turn a form into a paste-ready popup for your Circle community.** Fill in
+the fields, watch it render live, copy the code, paste it into Circle. No
+developer, no CSS, no support ticket.
 
-The generator and live preview are **free**. Only copying the generated code
-requires purchase.
+🔗 **[Live site](#)** · $59 one-time · Not affiliated with Circle
+
+![The generator](public/images/tn-popup-geenrator@2x.png)
+
+Circle communities can run custom code, but writing a popup that behaves
+properly — dismissal state that persists, mobile layout, not firing on every
+page load — is a real front-end job. Most community managers don't have one
+on staff. This gives them the artifact without the engineer.
+
+**Built with:** vanilla HTML/CSS/JS (no build step), Vercel serverless
+functions, Supabase for auth and purchase records, Stripe Checkout.
+
+**Why it's interesting technically:** the paywall is architectural rather than
+cosmetic — the popup template never reaches the browser until the server has
+verified payment. See [How the paywall actually works](#how-the-paywall-actually-works)
+below. Test coverage includes 28 security probes and a live webhook-delivery
+check written after a stale CLI listener silently broke the purchase flow.
 
 ---
 
